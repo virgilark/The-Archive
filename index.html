@@ -3,57 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Archive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Trajan+Pro:wght@400&family=Times+New+Roman:wght@400&display=swap" rel="stylesheet">
+    <title>Story Submission</title>
     <style>
         body {
             font-family: 'Times New Roman', serif;
             background-color: black;
             color: red;
         }
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2, h3 {
             font-family: 'Trajan Pro', serif;
-            color: red;
         }
-        /* Additional styles for story display and comments */
-        #story-section {
+        .story-form {
             margin: 20px;
         }
-        #search-bar {
-            margin: 10px 0;
+        .search-box, .comments {
+            margin: 20px;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>The Archive</h1>
-        <input type="text" id="search-bar" placeholder="Search stories...">
-    </header>
-    <section id="story-section">
-        <h2>Stories</h2>
-        <!-- Placeholder for stories -->
-        <div id="stories"></div>
-        <h3>Add a Story</h3>
-        <textarea id="story-input" placeholder="Write your story here..."></textarea>
-        <button id="submit-story">Submit</button>
-        <h3>Comments</h3>
-        <div id="comments"></div>
-        <textarea id="comment-input" placeholder="Write a comment..."></textarea>
-        <button id="submit-comment">Comment</button>
-    </section>
+    <h1>Submit Your Story</h1>
+    <div class="story-form">
+        <textarea id="storyInput" rows="10" cols="50" placeholder="Write your story here..."></textarea>
+        <button onclick="submitStory()">Submit Story</button>
+    </div>
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search stories..." onkeyup="searchStories()">
+        <ul id="storyList"></ul>
+    </div>
+    <div class="comments">
+        <h2>Comments</h2>
+        <textarea id="commentInput" rows="4" cols="50" placeholder="Leave a comment..."></textarea>
+        <button onclick="submitComment()">Submit Comment</button>
+        <ul id="commentList"></ul>
+    </div>
     <script>
-        // JavaScript for story and comment functionality
-        document.getElementById('submit-story').onclick = function() {
-            const storyInput = document.getElementById('story-input').value;
-            const storiesDiv = document.getElementById('stories');
-            storiesDiv.innerHTML += `<p>${storyInput}</p>`;
-            document.getElementById('story-input').value = '';
-        };
-        document.getElementById('submit-comment').onclick = function() {
-            const commentInput = document.getElementById('comment-input').value;
-            const commentsDiv = document.getElementById('comments');
-            commentsDiv.innerHTML += `<p>${commentInput}</p>`;
-            document.getElementById('comment-input').value = '';
+        let stories = [];
+        let comments = [];
+
+        function submitStory() {
+            const storyInput = document.getElementById('storyInput');
+            const story = storyInput.value;
+            if(story) {
+                stories.push(story);
+                localStorage.setItem('stories', JSON.stringify(stories));
+                storyInput.value = '';
+                displayStories();
+            }
+        }
+
+        function displayStories() {
+            const storyList = document.getElementById('storyList');
+            storyList.innerHTML = '';
+            const storedStories = JSON.parse(localStorage.getItem('stories')) || [];
+            storedStories.forEach((story, index) => {
+                const li = document.createElement('li');
+                li.textContent = story;
+                storyList.appendChild(li);
+            });
+        }
+
+        function searchStories() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const storyList = document.getElementById('storyList');
+            storyList.innerHTML = '';
+            const storedStories = JSON.parse(localStorage.getItem('stories')) || [];
+            storedStories.filter(story => story.toLowerCase().includes(searchInput)).forEach(story => {
+                const li = document.createElement('li');
+                li.textContent = story;
+                storyList.appendChild(li);
+            });
+        }
+
+        function submitComment() {
+            const commentInput = document.getElementById('commentInput');
+            const comment = commentInput.value;
+            if(comment) {
+                comments.push(comment);
+                localStorage.setItem('comments', JSON.stringify(comments));
+                commentInput.value = '';
+                displayComments();
+            }
+        }
+
+        function displayComments() {
+            const commentList = document.getElementById('commentList');
+            commentList.innerHTML = '';
+            const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
+            storedComments.forEach(comment => {
+                const li = document.createElement('li');
+                li.textContent = comment;
+                commentList.appendChild(li);
+            });
+        }
+
+        window.onload = function() {
+            displayStories();
+            displayComments();
         };
     </script>
 </body>
