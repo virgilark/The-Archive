@@ -1,1 +1,60 @@
-<!DOCTYPE html>\n<html lang="en">\n<head>\n    <meta charset="UTF-8">\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">\n    <title>The Archive</title>\n    <style>\n        body {\n            background-color: black;\n            color: gold;\n            font-family: Arial, sans-serif;\n        }\n        h1, h2 {\n            text-align: center;\n        }\n        .container {\n            width: 80%;\n            margin: auto;\n            padding: 20px;\n        }\n        form {\n            margin: 20px 0;\n        }\n        input[type='text'], input[type='submit'], textarea {\n            width: 100%;\n            padding: 10px;\n            margin: 10px 0;\n            border: 1px solid gold;\n            border-radius: 5px;\n        }\n        .comment-section {\n            margin-top: 30px;\n        }\n        .comment {\n            border: 1px solid gold;\n            padding: 10px;\n            margin: 10px 0;\n            border-radius: 5px;\n        }\n    </style>\n</head>\n<body>\n    <div class="container">\n        <h1>The Archive</h1>\n        <h2>Submit Your Story</h2>\n        <form id="storyForm">\n            <input type="text" id="storyTitle" placeholder="Story Title" required>\n            <textarea id="storyContent" rows="4" placeholder="Write your story here..." required></textarea>\n            <input type="submit" value="Submit Story">\n        </form>\n        <h2>Search Stories</h2>\n        <input type="text" id="searchInput" placeholder="Search...">\n        <div class="comment-section">\n            <h2>Comments</h2>\n            <div id="comments"></div>\n        </div>\n    </div>\n\n    <script>\n        // Functionality to handle form submission, search and comments would go here.\n        document.getElementById('storyForm').onsubmit = function(e) {\n            e.preventDefault();\n            // Code to handle story submission would be implemented here.\n        };\n        // Code to handle search functionality would be implemented here.\n    </script>\n</body>\n</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Archive</title>
+    <link href="https://fonts.googleapis.com/css2?family=Trajan+Pro:wght@400&family=Times+New+Roman:wght@400&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Times New Roman', serif;
+            background-color: black;
+            color: red;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Trajan Pro', serif;
+            color: red;
+        }
+        /* Additional styles for story display and comments */
+        #story-section {
+            margin: 20px;
+        }
+        #search-bar {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>The Archive</h1>
+        <input type="text" id="search-bar" placeholder="Search stories...">
+    </header>
+    <section id="story-section">
+        <h2>Stories</h2>
+        <!-- Placeholder for stories -->
+        <div id="stories"></div>
+        <h3>Add a Story</h3>
+        <textarea id="story-input" placeholder="Write your story here..."></textarea>
+        <button id="submit-story">Submit</button>
+        <h3>Comments</h3>
+        <div id="comments"></div>
+        <textarea id="comment-input" placeholder="Write a comment..."></textarea>
+        <button id="submit-comment">Comment</button>
+    </section>
+    <script>
+        // JavaScript for story and comment functionality
+        document.getElementById('submit-story').onclick = function() {
+            const storyInput = document.getElementById('story-input').value;
+            const storiesDiv = document.getElementById('stories');
+            storiesDiv.innerHTML += `<p>${storyInput}</p>`;
+            document.getElementById('story-input').value = '';
+        };
+        document.getElementById('submit-comment').onclick = function() {
+            const commentInput = document.getElementById('comment-input').value;
+            const commentsDiv = document.getElementById('comments');
+            commentsDiv.innerHTML += `<p>${commentInput}</p>`;
+            document.getElementById('comment-input').value = '';
+        };
+    </script>
+</body>
+</html>
